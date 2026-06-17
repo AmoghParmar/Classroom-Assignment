@@ -1,0 +1,326 @@
+{
+	"info": {
+		"_postman_id": "e0d287b9-fbf1-4d3b-945c-6066052c2f36",
+		"name": "Pick-pack-ship",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43142381"
+	},
+	"item": [
+		{
+			"name": "pick",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"",
+							"if (pm.response.code === 200) {",
+							"",
+							"    // newly created shipment",
+							"    if (response.shipmentIds &&",
+							"        response.shipmentIds.length > 0) {",
+							"",
+							"        pm.environment.set(",
+							"            \"shipmentId\",",
+							"            response.shipmentIds[0]",
+							"        );",
+							"",
+							"        console.log(",
+							"            \"Shipment created:\",",
+							"            response.shipmentIds[0]",
+							"        );",
+							"",
+							"        pm.execution.setNextRequest(\"pack\");",
+							"    }",
+							"",
+							"    // shipment already exists",
+							"    else if (pm.environment.get(\"shipmentId\")) {",
+							"",
+							"        console.log(",
+							"            \"Using existing shipment:\",",
+							"            pm.environment.get(\"shipmentId\")",
+							"        );",
+							"",
+							"        pm.execution.setNextRequest(\"pack\");",
+							"    }",
+							"",
+							"    else {",
+							"",
+							"        console.log(\"No shipment found\");",
+							"",
+							"        pm.execution.setNextRequest(null);",
+							"",
+							"    }",
+							"",
+							"}",
+							"else{",
+							"",
+							"    pm.execution.setNextRequest(null);",
+							"",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyTG9naW5JZCI6ImFtb2doLnBhcm1hciIsImlzcyI6Im5leHRnZW4tb21zIiwiZXhwIjoxNzgxNjEzNzAyLCJpYXQiOjE3ODE1MjczMDJ9.ERCmt1d1jEwN_k-rj8qjj8mKUG33zw_BYovr9mdCu_nQWytuY_CCxi50JPDdgZn6uExpQcihSIv65kEmYJFvGw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"packageName\": \"A\",\n    \"facilityId\": \"{{facilityId}}\",\n    \"shipmentMethodTypeId\": \"STANDARD\",\n    \"statusId\": \"ORDER_APPROVED\",\n    \"pickers\": [\n        {\n            \"partyId\": \"{{pickerPartyId}}\",\n            \"roleTypeId\": \"WAREHOUSE_PICKER\"\n        }\n    ],\n    \"orderItems\": [\n        {\n            \"orderId\": \"{{orderId}}\",\n            \"orderItemSeqId\": \"{{orderItemSeqId}}\",\n            \"shipGroupSeqId\": \"{{shipGroupSeqId}}\",\n            \"productId\": \"{{productId}}\",\n            \"quantity\": 1\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/createOrderFulfillmentWave",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"createOrderFulfillmentWave"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pack",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200){",
+							"",
+							"    console.log(\"Packed\");",
+							"",
+							"    pm.execution.setNextRequest(\"ship\");",
+							"",
+							"}",
+							"else{",
+							"",
+							"    console.log(\"Pack failed\");",
+							"",
+							"    pm.execution.setNextRequest(null);",
+							"",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "amogh.parmar",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "hotwax@786",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"shipmentId\": \"M100328\",\n    \"orderId\": \"160\",\n    \"facilityId\": \"Austin\",\n    \"rejectedOrderItems\": [],\n    \"shipmentPackageContents\": []\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/shipments/{{shipmentId}}/pack",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"shipments",
+						"{{shipmentId}}",
+						"pack"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ship",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(pm.response.code === 200){",
+							"",
+							"    console.log(\"Shipment shipped\");",
+							"",
+							"}",
+							"",
+							"pm.execution.setNextRequest(null);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "amogh.parmar",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "hotwax@786",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"shipmentId\": \"{{shipmentId}}\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/shipments/{{shipmentId}}/ship",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"shipments",
+						"{{shipmentId}}",
+						"ship"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reject",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyTG9naW5JZCI6ImFtb2doLnBhcm1hciIsImlzcyI6Im5leHRnZW4tb21zIiwiZXhwIjoxNzgxNjEzNzAyLCJpYXQiOjE3ODE1MjczMDJ9.ERCmt1d1jEwN_k-rj8qjj8mKUG33zw_BYovr9mdCu_nQWytuY_CCxi50JPDdgZn6uExpQcihSIv65kEmYJFvGw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"facilityId\": \"Austin\",\n    \"productStoreId\": \"STORE\",\n    \"reasonId\": \"INACTIVE_STORE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/rejectInProgressOrders",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"rejectInProgressOrders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "unpack",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyTG9naW5JZCI6ImFtb2doLnBhcm1hciIsImlzcyI6Im5leHRnZW4tb21zIiwiZXhwIjoxNzgxNjEzNzAyLCJpYXQiOjE3ODE1MjczMDJ9.ERCmt1d1jEwN_k-rj8qjj8mKUG33zw_BYovr9mdCu_nQWytuY_CCxi50JPDdgZn6uExpQcihSIv65kEmYJFvGw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"shipmentId\": \"M100328\",\n    \"statusId\": \"SHIPMENT_APPROVED\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/shipments/{{shipmentId}}/unpack",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"shipments",
+						"{{shipmentId}}",
+						"unpack"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
