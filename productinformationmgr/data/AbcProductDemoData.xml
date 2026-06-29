@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<!--
+    DEMO DATA: ABC Organization - Sample Products, Features, Categories
+    This represents real-world product catalog data for ABC Organization
+    that sells Smartphones and Laptops.
+-->
+<entity-engine-xml>
+
+    <!-- ============================================================= -->
+    <!-- PRODUCTS                                                        -->
+    <!-- ============================================================= -->
+
+    <!-- Virtual Product: Smartphone (no inventory, just a container) -->
+    <PimProduct productId="PROD10000" productName="Smartphone"
+        productTypeEnumId="FINISHED_GOOD"
+        isVirtual="Y" isVariant="N"
+        description="ABC Smartphone - latest generation flagship phone"
+        fromDate="2023-01-01 00:00:00.0"/>
+
+    <!-- Variant: Smartphone 128GB -->
+    <PimProduct productId="PROD10001" productName="Smartphone-128GB"
+        productTypeEnumId="FINISHED_GOOD"
+        isVirtual="N" isVariant="Y"
+        description="Smartphone variant with 128GB storage"
+        fromDate="2023-01-01 00:00:00.0"/>
+
+    <!-- Variant: Smartphone 256GB -->
+    <PimProduct productId="PROD10002" productName="Smartphone-256GB"
+        productTypeEnumId="FINISHED_GOOD"
+        isVirtual="N" isVariant="Y"
+        description="Smartphone variant with 256GB storage"
+        fromDate="2023-08-01 00:00:00.0"/>
+
+    <!-- Virtual Product: Laptop -->
+    <PimProduct productId="PROD20000" productName="Laptop"
+        productTypeEnumId="FINISHED_GOOD"
+        isVirtual="Y" isVariant="N"
+        description="ABC Laptop - high performance business laptop"
+        fromDate="2023-09-01 00:00:00.0"/>
+
+    <!-- Variant: Laptop Black -->
+    <PimProduct productId="PROD20001" productName="Laptop-BLACK"
+        productTypeEnumId="FINISHED_GOOD"
+        isVirtual="N" isVariant="Y"
+        description="Laptop variant in Black color"
+        fromDate="2023-09-01 00:00:00.0"/>
+
+    <!-- Marketing Package: Laptop + Phone Bundle -->
+    <PimProduct productId="PROM001" productName="Laptop-Phone-Promotional-Package"
+        productTypeEnumId="MARKT_PACKAGE"
+        isVirtual="Y" isVariant="N"
+        description="Promotional combo: ABC Smartphone 128GB + Laptop Black bundle"
+        fromDate="2023-10-01 00:00:00.0"/>
+
+    <!-- ============================================================= -->
+    <!-- PRODUCT CONTENT (Images and Descriptions for Virtual products)  -->
+    <!-- ============================================================= -->
+
+    <PimProductContent productContentId="CON100"
+        productId="PROD10000"
+        productContentTypeEnumId="IMAGE"
+        contentLocation="/images/smartphone.jpg"
+        fromDate="2023-01-01 00:00:00.0"/>
+
+    <PimProductContent productContentId="CON200"
+        productId="PROD10000"
+        productContentTypeEnumId="DESCRIPTION"
+        contentLocation="/descriptions/smartphone_en.txt"
+        fromDate="2023-01-01 00:00:00.0"/>
+
+    <PimProductContent productContentId="CON300"
+        productId="PROD20000"
+        productContentTypeEnumId="IMAGE"
+        contentLocation="/images/laptop.jpg"
+        fromDate="2023-09-01 00:00:00.0"/>
+
+    <!-- ============================================================= -->
+    <!-- PRODUCT PRICES                                                  -->
+    <!-- ============================================================= -->
+
+    <PimProductPrice productPriceId="PRC_PHN1"
+        productId="PROD10001"
+        priceTypeEnumId="LIST_PRICE"
+        price="799.99" currencyUomId="USD"
+        fromDate="2023-01-01 00:00:00.0"/>
+
+    <PimProductPrice productPriceId="PRC_PHN2"
+        productId="PROD10002"
+        priceTypeEnumId="LIST_PRICE"
+        price="1099.99" currencyUomId="USD"
+        fromDate="2023-08-01 00:00:00.0"/>
+
+    <PimProductPrice productPriceId="PRC_PHN1_PROM1"
+        productId="PROD10002"
+        priceTypeEnumId="PROMOTIONAL_PRICE"
+        price="999.99" currencyUomId="USD"
+        fromDate="2023-08-15 00:00:00.0"
+        thruDate="2023-08-31 00:00:00.0"/>
+
+    <PimProductPrice productPriceId="PRC_LPT1"
+        productId="PROD20000"
+        priceTypeEnumId="LIST_PRICE"
+        price="1299.99" currencyUomId="USD"
+        fromDate="2023-09-01 00:00:00.0"/>
+
+    <PimProductPrice productPriceId="PRC_PHN_LPT_PROM1"
+        productId="PROM001"
+        priceTypeEnumId="PROMOTIONAL_PRICE"
+        price="1999.99" currencyUomId="USD"
+        fromDate="2023-10-01 00:00:00.0"
+        thruDate="2023-11-15 00:00:00.0"/>
+
+    <!-- ============================================================= -->
+    <!-- PRODUCT DIMENSIONS                                              -->
+    <!-- ============================================================= -->
+
+    <PimProductDimension productId="PROD10000"
+        dimensionTypeEnumId="WEIGHT"
+        dimensionValue="6.60" valueUomId="OUNCES"/>
+
+    <PimProductDimension productId="PROD10001"
+        dimensionTypeEnumId="WEIGHT"
+        dimensionValue="2.5" valueUomId="LBS"/>
+
+    <!-- ============================================================= -->
+    <!-- PRODUCT ASSOCIATIONS                                            -->
+    <!-- Virtual → Variant (VARIANT type)                               -->
+    <!-- ============================================================= -->
+
+    <!-- Smartphone → Smartphone-128GB -->
+    <PimProductAssoc productId="PROD10000" toProductId="PROD10001"
+        productAssocTypeEnumId="VARIANT"
+        fromDate="2023-01-01 00:00:00.0"/>
+
+    <!-- Smartphone → Smartphone-256GB -->
+    <PimProductAssoc productId="PROD10000" toProductId="PROD10002"
+        productAssocTypeEnumId="VARIANT"
+        fromDate="2023-01-01 00:00:00.0"/>
+
+    <!-- Laptop → Laptop-BLACK -->
+    <PimProductAssoc productId="PROD20000" toProductId="PROD20001"
+        productAssocTypeEnumId="VARIANT"
+        fromDate="2023-09-01 00:00:00.0"/>
+
+    <!-- Marketing Package COMPONENT associations -->
+    <PimProductAssoc productId="PROM001" toProductId="PROD10001"
+        productAssocTypeEnumId="COMPONENT"
+        fromDate="2023-10-01 00:00:00.0"
+        quantity="1"/>
+
+    <PimProductAssoc productId="PROM001" toProductId="PROD20001"
+        productAssocTypeEnumId="COMPONENT"
+        fromDate="2023-10-01 00:00:00.0"
+        quantity="1"/>
+
+    <!-- ============================================================= -->
+    <!-- PRODUCT FEATURES                                                -->
+    <!-- ============================================================= -->
+
+    <PimProductFeature productFeatureId="128GB"  productFeatureTypeEnumId="MEMORY"  description="128 GB Storage"/>
+    <PimProductFeature productFeatureId="256GB"  productFeatureTypeEnumId="MEMORY"  description="256 GB Storage"/>
+    <PimProductFeature productFeatureId="BLACK"  productFeatureTypeEnumId="COLOR"   description="Black Color"/>
+    <PimProductFeature productFeatureId="SILVER" productFeatureTypeEnumId="COLOR"   description="Silver Color"/>
+    <PimProductFeature productFeatureId="15INCH" productFeatureTypeEnumId="DISPLAY" description="15 Inch Display"/>
+
+    <!-- ============================================================= -->
+    <!-- PRODUCT FEATURE APPLICATIONS                                    -->
+    <!-- Applies features to products with applType                     -->
+    <!-- ============================================================= -->
+
+    <!-- Smartphone (virtual) - SELECTABLE features so buyer can choose -->
+    <PimProductFeatureAppl productId="PROD10000" productFeatureId="128GB"
+        applTypeEnumId="SELECTABLE_FEATURE" fromDate="2023-06-01 00:00:00.0"/>
+    <PimProductFeatureAppl productId="PROD10000" productFeatureId="256GB"
+        applTypeEnumId="SELECTABLE_FEATURE" fromDate="2023-06-01 00:00:00.0"/>
+
+    <!-- Variant: Smartphone-128GB - STANDARD feature (already fixed) -->
+    <PimProductFeatureAppl productId="PROD10001" productFeatureId="128GB"
+        applTypeEnumId="STANDARD_FEATURE" fromDate="2023-06-01 00:00:00.0"/>
+
+    <!-- Variant: Smartphone-256GB - STANDARD feature -->
+    <PimProductFeatureAppl productId="PROD10002" productFeatureId="256GB"
+        applTypeEnumId="STANDARD_FEATURE" fromDate="2023-08-01 00:00:00.0"/>
+
+    <!-- Laptop (virtual) - SELECTABLE color -->
+    <PimProductFeatureAppl productId="PROD20000" productFeatureId="BLACK"
+        applTypeEnumId="SELECTABLE_FEATURE" fromDate="2023-09-01 00:00:00.0"/>
+    <PimProductFeatureAppl productId="PROD20000" productFeatureId="15INCH"
+        applTypeEnumId="STANDARD_FEATURE" fromDate="2023-09-01 00:00:00.0"/>
+
+    <!-- Laptop-BLACK variant - STANDARD color -->
+    <PimProductFeatureAppl productId="PROD20001" productFeatureId="BLACK"
+        applTypeEnumId="STANDARD_FEATURE" fromDate="2023-09-01 00:00:00.0"/>
+    <PimProductFeatureAppl productId="PROD20001" productFeatureId="15INCH"
+        applTypeEnumId="STANDARD_FEATURE" fromDate="2023-09-01 00:00:00.0"/>
+
+    <!-- ============================================================= -->
+    <!-- PRODUCT CATEGORIES                                              -->
+    <!-- ============================================================= -->
+
+    <!-- BROWSE ROOT: Top-level container for catalog tree -->
+    <PimProductCategory productCategoryId="BROWSE_ROOT"
+        productCategoryTypeId="CATALOG_CATEGORY"
+        categoryName="Browse Root"
+        description="Root category for catalog browsing tree"/>
+
+    <!-- SEARCH: All searchable products -->
+    <PimProductCategory productCategoryId="SEARCH"
+        productCategoryTypeId="SEARCH_CATEGORY"
+        categoryName="Search"
+        description="Products available in search results"/>
+
+    <!-- VIEW_ALLOW: Products visible on storefront -->
+    <PimProductCategory productCategoryId="VIEW_ALLOW"
+        productCategoryTypeId="CATALOG_CATEGORY"
+        categoryName="View Allow"
+        description="Products visible on the storefront"/>
+
+    <!-- PURCHASE_ALLOW: Products available for purchase -->
+    <PimProductCategory productCategoryId="PURCHASE_ALLOW"
+        productCategoryTypeId="CATALOG_CATEGORY"
+        categoryName="Purchase Allow"
+        description="Products available for purchase"/>
+
+    <!-- LUXURY_TAX_CATEGORY: Tax category for luxury items -->
+    <PimProductCategory productCategoryId="LUXURY_TAX_CATEGORY"
+        productCategoryTypeId="TAX_CATEGORY"
+        categoryName="Luxury Tax"
+        description="Category for products subject to luxury tax"/>
+
+    <!-- PROMOTIONS: Highlighted promotional products (child of BROWSE_ROOT) -->
+    <PimProductCategory productCategoryId="PROMOTIONS"
+        productCategoryTypeId="CATALOG_CATEGORY"
+        parentProductCategoryId="BROWSE_ROOT"
+        categoryName="Promotions"
+        description="Products featured in current promotions"/>
+
+    <!-- MOST_POPULAR: Best-selling products (child of BROWSE_ROOT) -->
+    <PimProductCategory productCategoryId="MOST_POPULAR"
+        productCategoryTypeId="CATALOG_CATEGORY"
+        parentProductCategoryId="BROWSE_ROOT"
+        categoryName="Most Popular"
+        description="Most popular and best-selling products"/>
+
+    <!-- WHATS_NEW: Fresh arrivals (child of BROWSE_ROOT) -->
+    <PimProductCategory productCategoryId="WHATS_NEW"
+        productCategoryTypeId="CATALOG_CATEGORY"
+        parentProductCategoryId="BROWSE_ROOT"
+        categoryName="Whats New"
+        description="Latest arrivals and new products"/>
+
+    <!-- ============================================================= -->
+    <!-- PRODUCT CATEGORY MEMBERS                                        -->
+    <!-- ============================================================= -->
+
+    <!-- BROWSE_ROOT members -->
+    <PimProductCategoryMember productId="PROD10000" productCategoryId="BROWSE_ROOT" fromDate="2023-01-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD10001" productCategoryId="BROWSE_ROOT" fromDate="2023-01-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD10002" productCategoryId="BROWSE_ROOT" fromDate="2023-01-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD20000" productCategoryId="BROWSE_ROOT" fromDate="2023-01-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD20001" productCategoryId="BROWSE_ROOT" fromDate="2023-01-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROM001"   productCategoryId="BROWSE_ROOT" fromDate="2023-10-01 00:00:00.0"/>
+
+    <!-- SEARCH members -->
+    <PimProductCategoryMember productId="PROD10000" productCategoryId="SEARCH" fromDate="2023-06-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD10001" productCategoryId="SEARCH" fromDate="2023-06-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD10002" productCategoryId="SEARCH" fromDate="2023-08-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD20000" productCategoryId="SEARCH" fromDate="2023-09-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD20001" productCategoryId="SEARCH" fromDate="2023-09-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROM001"   productCategoryId="SEARCH" fromDate="2023-10-01 00:00:00.0"/>
+
+    <!-- VIEW_ALLOW members (Phones available June, Laptops September) -->
+    <PimProductCategoryMember productId="PROD10001" productCategoryId="VIEW_ALLOW" fromDate="2023-06-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD10002" productCategoryId="VIEW_ALLOW" fromDate="2023-08-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD20000" productCategoryId="VIEW_ALLOW" fromDate="2023-09-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD20001" productCategoryId="VIEW_ALLOW" fromDate="2023-09-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROM001"   productCategoryId="VIEW_ALLOW" fromDate="2023-10-01 00:00:00.0" thruDate="2023-11-15 00:00:00.0"/>
+
+    <!-- PURCHASE_ALLOW members (available ~2 weeks after view) -->
+    <PimProductCategoryMember productId="PROD10000" productCategoryId="PURCHASE_ALLOW" fromDate="2023-06-15 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD10001" productCategoryId="PURCHASE_ALLOW" fromDate="2023-06-15 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD10002" productCategoryId="PURCHASE_ALLOW" fromDate="2023-08-15 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD20000" productCategoryId="PURCHASE_ALLOW" fromDate="2023-09-15 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD20001" productCategoryId="PURCHASE_ALLOW" fromDate="2023-09-15 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROM001"   productCategoryId="PURCHASE_ALLOW" fromDate="2023-10-01 00:00:00.0" thruDate="2023-11-15 00:00:00.0"/>
+
+    <!-- LUXURY_TAX_CATEGORY: Large phone and laptop = luxury items -->
+    <PimProductCategoryMember productId="PROD10002" productCategoryId="LUXURY_TAX_CATEGORY" fromDate="2023-08-15 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD20001" productCategoryId="LUXURY_TAX_CATEGORY" fromDate="2023-09-15 00:00:00.0"/>
+
+    <!-- PROMOTIONS: Smartphone-256GB annual sale + Bundle -->
+    <PimProductCategoryMember productId="PROD10002" productCategoryId="PROMOTIONS" fromDate="2023-08-15 00:00:00.0" thruDate="2023-08-31 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROM001"   productCategoryId="PROMOTIONS" fromDate="2023-10-01 00:00:00.0" thruDate="2023-11-15 00:00:00.0"/>
+
+    <!-- MOST_POPULAR: Smartphone-256GB had highest sales last quarter -->
+    <PimProductCategoryMember productId="PROD10002" productCategoryId="MOST_POPULAR" fromDate="2023-09-01 00:00:00.0"/>
+
+    <!-- WHATS_NEW: Laptop was new for 2 months -->
+    <PimProductCategoryMember productId="PROD20000" productCategoryId="WHATS_NEW" fromDate="2023-09-01 00:00:00.0" thruDate="2023-10-31 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD20001" productCategoryId="WHATS_NEW" fromDate="2023-09-01 00:00:00.0" thruDate="2023-10-31 00:00:00.0"/>
+
+</entity-engine-xml>
